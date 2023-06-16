@@ -1,0 +1,15 @@
+{
+  "name": "portfolio-backend",
+  "version": "1.0.0",
+  "description": "applicazione back-end per progetto portfolio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx pm2-dev start index.js"
+  },
+  "author": "Salvatore Munaò",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
