@@ -7,6 +7,26 @@ const mongoose = require('mongoose');
 // oppure inserire direttamente l’URL del DB in maniera cablata al suo posto.
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
+//definiamo lo schema per Progetti
+const progettoSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+    },
+    image: {
+        type: String,
+    },
+    link: {
+        type: String,
+    },
+})
+
+//definire il modello per Progetto
+const Progetto = mongoose.model('Progetto', progettoSchema);
+
 //qui inizializziamo il framework express
 const app = express();
 app.use(cors());
@@ -17,64 +37,15 @@ app.get('/', (req, res) => {
 });
 
 app.get('/progetti', (req, res) => {
-        const progettiJson = [
-                {
-                    "title": "To Do List",
-                    "description": "Un esempio di utilizzo di JS per la creazione di una lista di cose da fare",
-                    "image": "https://as2.ftcdn.net/v2/jpg/01/39/40/61/1000_F_139406177_40NJQiH2xx9aZ5MLxRWCMMjSyjC9E7W9.jpg",
-                    "link": "https://shetechitaly.github.io/js-bootcamp/"
-                }, 
-                {
-                    "title": "Timeline",
-                    "description": "Un esempio di utilizzo di JS per simulare una linea temporale di post",
-                    "image": "https://posttimeline.com/wp-content/themes/ptl-theme/images/demos/gutenberg/chat-timeline.jpg",
-                    "link": "https://bootcamp.shetechitaly.org/day2/02-00"
-                }, 
-                {
-                    "title": "Progetto 3",
-                    "description": "Una descrizione per il progetto 3",
-                    "image": null,
-                    "link": "#"
-                },
-                {
-                    "title": "Progetto 4",
-                    "description": "Una descrizione per il progetto 4",
-                    "image": null,
-                    "link": "#"
-                },
-                {
-                    "title": "Progetto 5",
-                    "description": "Una descrizione per il progetto 5",
-                    "image": null,
-                    "link": "#"
-                },
-                {
-                    "title": "Progetto 6",
-                    "description": "Una descrizione per il progetto 6",
-                    "image": null,
-                    "link": "#"
-                },
-                {
-                    "title": "Progetto 7",
-                    "description": "Una descrizione per il progetto 7",
-                    "image": null,
-                    "link": "#"
-                },
-                {
-                    "title": "Progetto 8",
-                    "description": "Una descrizione per il progetto 8",
-                    "image": null,
-                    "link": "#"
-                },
-                {
-                    "title": "Progetto 9",
-                    "description": "Una descrizione per il progetto 9",
-                    "image": null,
-                    "link": "#"
-                }
-            ];
-
-            res.json(progettiJson);
+            Progetto.find()
+            then((progetti) => {
+                console.log('progetti', progetti)
+                res.json(progetti);
+                })
+                .catch((error) => {
+                res.status(500).json({ error: error.message });
+                });
+            // res.json(progettiJson);
 });
 
 // Definizione di una route di fallback per gestire le pagine non trovate
